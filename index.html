@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dado da Paz — Saúde Mental Digital</title>
   <style>
-    /* RESET E CONFIGURAÇÕES GERAIS */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: 'Segoe UI', Roboto, Arial, Helvetica, sans-serif;
     }
 
     :root {
@@ -33,177 +32,176 @@
 
     body {
       min-height: 100vh;
-      background: radial-gradient(circle at top left, rgba(0, 123, 209, 0.15), transparent 34%),
-                  radial-gradient(circle at bottom right, rgba(0, 156, 156, 0.15), transparent 34%),
+      background: radial-gradient(circle at 10% 20%, rgba(0, 123, 209, 0.08), transparent 50%),
+                  radial-gradient(circle at 90% 80%, rgba(0, 156, 156, 0.08), transparent 50%),
                   var(--fundo);
       color: var(--texto);
-      overflow-x: hidden;
-    }
-
-    body.modal-aberto {
-      overflow: hidden;
+      padding: 24px 20px 40px;
     }
 
     .app {
-      width: 100%;
-      max-width: 1180px;
+      max-width: 1300px;
       margin: 0 auto;
-      padding: clamp(18px, 3vw, 34px) 16px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
     }
 
     /* HEADER */
     header {
       text-align: center;
-      margin-bottom: 28px;
-    }
-
-    header h1 {
-      font-size: clamp(28px, 5vw, 54px);
-      letter-spacing: clamp(2px, 1vw, 7px);
-      color: var(--azul-escuro);
-      margin-bottom: 10px;
-      line-height: 1.05;
-    }
-
-    header p {
-      font-size: clamp(15px, 2vw, 18px);
-      color: #1e293b;
-      line-height: 1.45;
       margin-bottom: 6px;
     }
 
-    .slogan {
-      font-weight: 800;
+    header h1 {
+      font-size: clamp(32px, 5vw, 56px);
+      letter-spacing: 3px;
       color: var(--azul-escuro);
+      line-height: 1.1;
+      font-weight: 800;
     }
 
-    /* LAYOUT PRINCIPAL (3 COLUNAS) */
-    .layout {
+    header p {
+      font-size: clamp(16px, 1.6vw, 20px);
+      color: #1e293b;
+      margin-top: 6px;
+    }
+
+    .slogan {
+      font-weight: 700;
+      color: var(--azul-escuro);
+      background: #e6edf8;
+      display: inline-block;
+      padding: 0 20px;
+      border-radius: 40px;
+    }
+
+    /* GRID PRINCIPAL: 3 colunas */
+    .grid-3 {
       display: grid;
-      grid-template-columns: minmax(240px, 1fr) minmax(300px, 390px) minmax(240px, 1fr);
-      gap: clamp(18px, 3vw, 30px);
+      grid-template-columns: 1fr 1.1fr 1fr;
+      gap: 28px;
       align-items: start;
-      padding-top: 400px; /* Espaço para o cubo fixo */
     }
 
-    /* CARDS GENÉRICOS */
+    /* CARDS */
     .card {
       background: #ffffff;
       border: 2px solid var(--linha);
-      border-radius: 24px;
-      box-shadow: 0 16px 35px rgba(15, 45, 102, 0.12);
-      padding: clamp(18px, 2.5vw, 26px);
-      min-width: 0;
+      border-radius: 28px;
+      box-shadow: 0 12px 30px rgba(15, 45, 102, 0.08);
+      padding: 22px 20px;
     }
 
     .card h2 {
-      font-size: clamp(20px, 2.4vw, 24px);
+      font-size: clamp(20px, 2.2vw, 26px);
       color: var(--azul-escuro);
-      margin-bottom: 18px;
+      margin-bottom: 16px;
+      font-weight: 700;
     }
 
     .card h3 {
-      font-size: 17px;
+      font-size: 18px;
       color: var(--azul-escuro);
-      margin: 26px 0 12px;
+      margin: 24px 0 12px;
+      font-weight: 600;
     }
 
     .texto-ajuda {
       color: #334155;
+      font-size: 15px;
       line-height: 1.5;
-      font-size: 14px;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
       font-weight: 500;
     }
 
     /* EMOJIS */
     .emoji-box {
       display: flex;
-      gap: 10px;
       flex-wrap: wrap;
+      gap: 8px;
       margin-bottom: 6px;
     }
 
     .emoji-btn {
-      border: 3px solid #cbd5e1;
+      border: 3px solid #e2e8f0;
       background: #f8fafc;
-      border-radius: 15px;
+      border-radius: 16px;
       padding: 12px 14px;
+      font-size: 26px;
       cursor: pointer;
-      font-size: 25px;
       transition: 0.2s;
-      box-shadow: none;
     }
 
     .emoji-btn:hover {
-      transform: translateY(-2px);
       background: #f1f5f9;
       border-color: #94a3b8;
+      transform: translateY(-2px);
     }
 
     .emoji-btn.ativo {
       border-color: var(--azul-escuro);
       background: #eff6ff;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 18px rgba(15, 45, 102, 0.14);
+      box-shadow: 0 4px 12px rgba(15, 45, 102, 0.15);
     }
 
-    /* MODOS (Pausa rápida, etc.) */
+    /* MODOS */
     .modos {
-      display: grid;
-      gap: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
     .modo {
-      padding: 14px;
-      border: 3px solid #cbd5e1;
-      border-radius: 17px;
+      padding: 12px 16px;
+      border: 3px solid #e2e8f0;
+      border-radius: 18px;
       background: #f8fafc;
       cursor: pointer;
-      text-align: left;
       transition: 0.2s;
     }
 
     .modo strong {
       display: block;
       color: var(--azul-escuro);
-      margin-bottom: 5px;
       font-size: 15px;
+      margin-bottom: 4px;
     }
 
     .modo span {
       color: #334155;
       font-size: 14px;
-      line-height: 1.35;
+      line-height: 1.4;
     }
 
     .modo:hover {
       border-color: #94a3b8;
-      transform: translateY(-1px);
       background: #f1f5f9;
     }
 
     .modo.ativo {
       border-color: var(--azul-escuro);
       background: #eff6ff;
-      box-shadow: 0 0 0 4px rgba(15, 45, 102, 0.12);
+      box-shadow: 0 0 0 3px rgba(15, 45, 102, 0.1);
     }
 
-    /* FACES DO DADO (LISTA) */
+    /* FACES DO DADO (lista) */
     .opcoes {
       display: grid;
-      gap: 10px;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 6px;
     }
 
     .linha-opcao {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 12px;
-      border-radius: 15px;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 40px;
       background: #f1f5f9;
-      border: 2px solid #cbd5e1;
-      font-weight: 800;
+      border: 2px solid #e2e8f0;
+      font-weight: 700;
       font-size: 14px;
       color: #1e293b;
     }
@@ -211,47 +209,35 @@
     .bolinha {
       width: 14px;
       height: 14px;
-      border-radius: 999px;
-      display: block;
+      border-radius: 50%;
       flex-shrink: 0;
-      border: 2px solid rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0,0,0,0.08);
     }
 
-    /* --- CUBO FIXO NO TOPO (NÃO SE MOVE) --- */
-    .cubo-area {
-      position: fixed;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 100;
-      width: 100%;
-      max-width: 390px;
-      padding: 10px 16px;
-      background: var(--fundo);
-      box-shadow: 0 4px 20px rgba(15, 45, 102, 0.10);
-      border-bottom: 2px solid var(--linha);
-    }
-
-    .cubo-area .card {
-      box-shadow: 0 16px 35px rgba(15, 45, 102, 0.12);
+    /* ===== CUBO (centro) ===== */
+    .cubo-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
     }
 
     .area-3d {
-      width: min(330px, 72vw);
-      height: min(330px, 72vw);
-      margin: 8px auto 28px;
+      width: min(340px, 68vw);
+      height: min(340px, 68vw);
       perspective: 1200px;
+      margin: 0 auto;
     }
 
     .cubo {
-      --tam: min(330px, 72vw);
+      --tam: min(340px, 68vw);
       --metade: calc(var(--tam) / 2);
       width: var(--tam);
       height: var(--tam);
       position: relative;
       transform-style: preserve-3d;
       transform: rotateX(-90deg) rotateY(0deg);
-      transition: transform 3s cubic-bezier(0.15, 0.8, 0.25, 1);
+      transition: transform 3.2s cubic-bezier(0.12, 0.75, 0.25, 1);
       cursor: pointer;
       margin: 0 auto;
     }
@@ -261,32 +247,31 @@
       width: var(--tam);
       height: var(--tam);
       background: #ffffff;
-      border: clamp(7px, 2vw, 10px) solid #94a3b8;
-      border-radius: clamp(22px, 6vw, 30px);
+      border: clamp(8px, 1.8vw, 12px) solid #94a3b8;
+      border-radius: clamp(24px, 6vw, 32px);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       backface-visibility: hidden;
       user-select: none;
-      padding: clamp(16px, 5vw, 28px);
-      box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.04), 0 12px 30px rgba(15, 45, 102, 0.18);
+      padding: clamp(14px, 4vw, 28px);
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.02), 0 12px 28px rgba(15, 45, 102, 0.12);
     }
 
     .face img {
-      width: 45%;
-      height: 45%;
+      width: 44%;
+      height: 44%;
       object-fit: contain;
-      margin-bottom: clamp(16px, 4vw, 26px);
+      margin-bottom: clamp(12px, 3vw, 20px);
       pointer-events: none;
     }
 
     .nome-face {
-      font-size: clamp(23px, 7vw, 34px);
+      font-size: clamp(24px, 6vw, 36px);
       font-weight: 900;
       letter-spacing: 2px;
       line-height: 1;
-      word-break: keep-all;
     }
 
     .frente   { transform: rotateY(0deg)    translateZ(var(--metade)); border-color: var(--cuida);    color: var(--cuida); }
@@ -296,33 +281,32 @@
     .cima     { transform: rotateX(90deg)   translateZ(var(--metade)); border-color: var(--abranda);  color: var(--abranda); }
     .baixo    { transform: rotateX(-90deg)  translateZ(var(--metade)); border-color: var(--respira);  color: var(--respira); }
 
-    /* BOTÕES DO CUBO */
-    .btns {
+    .btns-cubo {
       display: flex;
       justify-content: center;
-      gap: 12px;
+      gap: 14px;
       flex-wrap: wrap;
-      margin-bottom: 14px;
+      margin-top: 2px;
     }
 
     button {
       border: none;
-      padding: 14px 21px;
-      border-radius: 15px;
-      font-size: 15px;
-      font-weight: 800;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 16px;
       cursor: pointer;
       transition: 0.2s;
-      box-shadow: 0 8px 18px rgba(15, 45, 102, 0.22);
-      color: #ffffff;
+      box-shadow: 0 6px 16px rgba(15, 45, 102, 0.18);
+      color: #fff;
     }
 
     button:hover {
-      transform: translateY(-2px);
+      transform: translateY(-3px);
     }
 
     button:disabled {
-      opacity: 0.55;
+      opacity: 0.5;
       cursor: not-allowed;
       transform: none;
     }
@@ -330,70 +314,59 @@
     #btnGirar {
       background: var(--azul-escuro);
       font-size: 18px;
-      padding: 18px 32px;
-      box-shadow: 0 8px 24px rgba(15, 45, 102, 0.4);
-      border-radius: 50px;
+      padding: 18px 36px;
+      box-shadow: 0 8px 24px rgba(15, 45, 102, 0.35);
       letter-spacing: 1px;
       border: 2px solid transparent;
-      transition: all 0.2s ease;
-      color: #ffffff;
     }
 
     #btnGirar:hover {
       background: #1a4a8a;
-      transform: translateY(-3px);
-      box-shadow: 0 12px 32px rgba(15, 45, 102, 0.5);
-    }
-
-    #btnGirar:disabled {
-      background: #64748b;
-      box-shadow: none;
     }
 
     .btn-secundario {
       background: #475569;
-      color: #ffffff;
-      box-shadow: 0 4px 12px rgba(71, 85, 105, 0.25);
     }
-
-    .btn-secundario:hover {
-      background: #334155;
-    }
+    .btn-secundario:hover { background: #334155; }
 
     .btn-perigo {
       background: #dc2626;
-      color: #ffffff;
-      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
     }
+    .btn-perigo:hover { background: #b91c1c; }
 
-    .btn-perigo:hover {
-      background: #b91c1c;
-    }
-
-    /* ESTADO ATUAL */
     .estado-atual {
-      margin-top: 16px;
-      padding: 14px;
+      margin-top: 8px;
+      padding: 14px 18px;
       background: #f1f5f9;
-      border: 2px solid #cbd5e1;
-      border-radius: 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 20px;
       color: #1e293b;
-      line-height: 1.45;
       font-weight: 500;
+      font-size: 15px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
     }
 
-    /* HISTÓRICO */
+    /* ===== HISTÓRICO (abaixo do cubo) ===== */
+    .historico-card {
+      margin-top: 10px;
+      width: 100%;
+      max-width: 400px;
+    }
+
     .historico {
-      display: grid;
+      display: flex;
+      flex-direction: column;
       gap: 12px;
-      max-height: min(520px, 60vh);
-      overflow: auto;
-      padding-right: 4px;
+      max-height: 340px;
+      overflow-y: auto;
+      padding-right: 6px;
     }
 
     .item-historico {
-      padding: 14px;
-      border-radius: 16px;
+      padding: 12px 16px;
+      border-radius: 18px;
       background: #f8fafc;
       border: 2px solid #e2e8f0;
       font-size: 14px;
@@ -403,25 +376,96 @@
 
     .item-historico strong {
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
+      font-size: 15px;
     }
 
     .vazio {
-      color: #475569;
-      line-height: 1.5;
+      color: #64748b;
       font-weight: 500;
+      padding: 8px 0;
     }
 
-    /* MODAL */
+    /* ===== COLUNA DIREITA (imagem + faces) ===== */
+    .direita-card {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .imagem-lateral {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #ffffff;
+      border: 2px solid var(--linha);
+      border-radius: 28px;
+      padding: 16px;
+      box-shadow: 0 12px 30px rgba(15, 45, 102, 0.08);
+    }
+
+    .imagem-lateral img {
+      width: 100%;
+      max-width: 260px;
+      height: auto;
+      border-radius: 20px;
+      object-fit: contain;
+      background: #fff;
+      padding: 4px;
+    }
+
+    /* ===== FOOTER LOGOS ===== */
+    .footer-logos {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 30px 50px;
+      padding: 28px 20px;
+      background: #ffffff;
+      border: 2px solid var(--linha);
+      border-radius: 32px;
+      box-shadow: 0 12px 30px rgba(15, 45, 102, 0.06);
+      margin-top: 6px;
+    }
+
+    .logo-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      max-width: 240px;
+      max-height: 80px;
+    }
+
+    .logo-item img,
+    .logo-item svg {
+      max-width: 100%;
+      max-height: 80px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .logo-item.living-peace {
+      max-width: 320px;
+    }
+    .logo-item.living-peace img,
+    .logo-item.living-peace svg {
+      max-height: 72px;
+    }
+
+    /* ===== MODAL (mesmo) ===== */
     .modal-overlay {
       position: fixed;
       inset: 0;
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 18px;
-      background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(8px);
+      padding: 20px;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(6px);
       z-index: 999;
     }
 
@@ -431,17 +475,17 @@
 
     .modal {
       width: min(720px, 100%);
-      max-height: min(88vh, 820px);
-      overflow: auto;
+      max-height: 90vh;
+      overflow-y: auto;
       background: #ffffff;
-      border-radius: 28px;
-      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
-      border: 2px solid rgba(255, 255, 255, 0.6);
+      border-radius: 32px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+      border: 2px solid rgba(255,255,255,0.5);
       animation: aparecer 0.25s ease;
     }
 
     @keyframes aparecer {
-      from { opacity: 0; transform: translateY(18px) scale(0.97); }
+      from { opacity: 0; transform: translateY(20px) scale(0.96); }
       to   { opacity: 1; transform: translateY(0) scale(1); }
     }
 
@@ -449,27 +493,26 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 14px;
-      padding: 20px 22px;
+      gap: 16px;
+      padding: 20px 24px;
       border-bottom: 2px solid #e2e8f0;
       position: sticky;
       top: 0;
-      background: #ffffff;
+      background: #fff;
+      border-radius: 32px 32px 0 0;
       z-index: 2;
-      border-radius: 28px 28px 0 0;
     }
 
     .modal-titulo-area {
       display: flex;
       align-items: center;
-      gap: 14px;
-      min-width: 0;
+      gap: 16px;
     }
 
     .modal-icone {
       width: 64px;
       height: 64px;
-      border-radius: 18px;
+      border-radius: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -486,32 +529,29 @@
     }
 
     .modal h2 {
-      font-size: clamp(25px, 5vw, 36px);
+      font-size: clamp(26px, 4.5vw, 38px);
       line-height: 1;
-      margin-bottom: 5px;
       color: #0f172a;
     }
 
     .modal-sub {
       color: #475569;
-      line-height: 1.35;
-      font-size: 14px;
       font-weight: 500;
+      font-size: 15px;
     }
 
     .fechar-modal {
-      width: 42px;
-      height: 42px;
-      border-radius: 999px;
-      display: grid;
-      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
       padding: 0;
-      flex-shrink: 0;
       background: #e2e8f0;
       color: #0f172a;
       box-shadow: none;
-      font-size: 23px;
-      font-weight: 700;
+      font-size: 26px;
+      font-weight: 300;
+      display: grid;
+      place-items: center;
     }
 
     .fechar-modal:hover {
@@ -519,32 +559,29 @@
     }
 
     .modal-corpo {
-      padding: 22px;
-      color: #0f172a;
+      padding: 24px;
     }
 
     .caixa-desafio {
       background: #f1f5f9;
       border-left: 6px solid currentColor;
-      padding: 18px;
-      border-radius: 16px;
+      padding: 18px 20px;
+      border-radius: 18px;
       font-size: 18px;
       line-height: 1.6;
-      margin-bottom: 18px;
-      color: #0f172a;
+      margin-bottom: 16px;
     }
 
     .temporizador {
-      display: grid;
+      display: none;
       grid-template-columns: auto 1fr auto;
       align-items: center;
       gap: 16px;
-      margin: 18px 0;
-      padding: 16px;
-      border-radius: 18px;
+      margin: 16px 0;
+      padding: 14px 18px;
+      border-radius: 20px;
       background: #f1f5f9;
       border: 2px solid #e2e8f0;
-      display: none;
     }
 
     .temporizador.ativo {
@@ -552,19 +589,18 @@
     }
 
     .tempo {
-      font-size: clamp(30px, 6vw, 42px);
-      font-weight: 900;
+      font-size: clamp(32px, 5vw, 44px);
+      font-weight: 800;
       color: var(--azul-escuro);
-      min-width: 110px;
+      min-width: 100px;
       text-align: center;
     }
 
     .barra {
-      height: 14px;
+      height: 12px;
       background: #cbd5e1;
-      border-radius: 999px;
+      border-radius: 40px;
       overflow: hidden;
-      min-width: 100px;
     }
 
     .progresso {
@@ -575,13 +611,12 @@
     }
 
     .reflexao {
-      margin-top: 18px;
+      margin-top: 12px;
       padding: 16px;
-      border-radius: 16px;
+      border-radius: 18px;
       background: #fef3c7;
       color: #78350f;
-      line-height: 1.5;
-      font-weight: 800;
+      font-weight: 700;
       border: 2px solid #fde68a;
     }
 
@@ -595,26 +630,25 @@
     .modal-bloco {
       padding: 16px;
       background: #f8fafc;
-      border: 2px solid #e2e8f0;
       border-radius: 18px;
+      border: 2px solid #e2e8f0;
     }
 
     .modal-bloco h3 {
       color: var(--azul-escuro);
       font-size: 17px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .frase-final {
       width: 100%;
-      margin-top: 14px;
-      padding: 14px;
-      border: 3px solid #cbd5e1;
-      border-radius: 14px;
-      font-size: 15px;
+      margin-top: 16px;
+      padding: 14px 16px;
+      border: 3px solid #e2e8f0;
+      border-radius: 18px;
+      font-size: 16px;
+      background: #fff;
       outline: none;
-      background: #ffffff;
-      color: #0f172a;
     }
 
     .frase-final:focus {
@@ -623,109 +657,45 @@
 
     .modal-acoes {
       display: flex;
-      gap: 12px;
+      gap: 14px;
       flex-wrap: wrap;
       margin-top: 18px;
     }
 
     .modal-acoes button {
-      flex: 1 1 150px;
+      flex: 1 1 140px;
     }
 
-    /* IMAGEM LATERAL (cubo.jpg) */
-    .imagem-lateral {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-      width: 100%;
-      max-width: 300px;
-      margin: 0 auto;
-    }
-
-    .imagem-lateral img {
-      width: 100%;
-      height: auto;
-      max-height: 500px;
-      object-fit: contain;
-      border-radius: 20px;
-      box-shadow: 0 8px 25px rgba(15, 45, 102, 0.15);
-      border: 2px solid var(--linha);
-      background: #ffffff;
-      padding: 10px;
-    }
-
-    /* --- FOOTER COM LOGOS --- */
-    .footer-logos {
-      grid-column: 1 / -1;
-      width: 100%;
-      margin-top: 40px;
-      padding: 30px 20px;
-      background: #ffffff;
-      border: 2px solid var(--linha);
-      border-radius: 24px;
-      box-shadow: 0 16px 35px rgba(15, 45, 102, 0.12);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 40px;
-    }
-
-    .footer-logos .logo-item {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      max-width: 260px;
-      max-height: 100px;
-    }
-
-    .footer-logos .logo-item img,
-    .footer-logos .logo-item svg {
-      max-width: 100%;
-      max-height: 100px;
-      width: auto;
-      height: auto;
-      object-fit: contain;
-      display: block;
-    }
-
-    .footer-logos .logo-item.living-peace {
-      max-width: 340px;
-    }
-
-    .footer-logos .logo-item.living-peace img,
-    .footer-logos .logo-item.living-peace svg {
-      max-height: 90px;
-    }
-
-    /* RESPONSIVIDADE */
-    @media (max-width: 1050px) {
-      .layout {
-        grid-template-columns: 1fr;
-        padding-top: 380px;
+    /* ===== RESPONSIVO ===== */
+    @media (max-width: 1100px) {
+      .grid-3 {
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
       }
-      .cubo-area {
+      .grid-3 .centro-col {
+        order: -1;
+        grid-column: 1 / -1;
+      }
+      .direita-card {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      .historico-card {
         max-width: 100%;
-        padding: 0 16px;
       }
-      .card {
-        max-width: 760px;
-        width: 100%;
-        margin: 0 auto;
-      }
-      .imagem-lateral {
-        max-width: 250px;
-        margin: 20px auto;
-      }
-      .imagem-lateral img {
-        max-height: 400px;
+      .footer-logos {
+        gap: 20px 30px;
       }
     }
 
-    @media (max-width: 620px) {
-      .layout {
-        padding-top: 340px;
+    @media (max-width: 700px) {
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+      .direita-card {
+        grid-template-columns: 1fr;
       }
       .modal-grid {
         grid-template-columns: 1fr;
@@ -734,44 +704,21 @@
         grid-template-columns: 1fr;
         text-align: center;
       }
-      .modal-cabecalho {
-        align-items: flex-start;
-      }
-      .modal-icone {
-        width: 54px;
-        height: 54px;
-      }
-      .modal-icone img {
-        width: 40px;
-        height: 40px;
-      }
-      .modal-corpo {
-        padding: 18px;
-      }
-      .btns button {
-        flex: 1 1 130px;
-      }
-      .imagem-lateral {
-        max-width: 200px;
-      }
-      .imagem-lateral img {
-        max-height: 300px;
-      }
       .footer-logos {
         flex-direction: column;
-        gap: 25px;
-        padding: 25px 20px;
+        gap: 20px;
+        padding: 20px;
       }
-      .footer-logos .logo-item {
+      .logo-item {
         max-width: 200px;
-        max-height: 80px;
+        max-height: 70px;
       }
-      .footer-logos .logo-item.living-peace {
-        max-width: 280px;
+      .logo-item.living-peace {
+        max-width: 260px;
       }
-      .footer-logos .logo-item img,
-      .footer-logos .logo-item svg {
-        max-height: 80px;
+      .logo-item img,
+      .logo-item svg {
+        max-height: 70px;
       }
     }
   </style>
@@ -779,37 +726,18 @@
 <body>
   <div class="app">
     <header>
-      <h1>DADO DA SAÚDE MENTAL</h1>
-      <p>Dado da Paz - Saúde Mental (Versão Digital)</p>
+      <h1>🧠 DADO DA SAÚDE MENTAL</h1>
+      <p>Dado da Paz · Versão Digital</p>
       <p class="slogan">Gira o dado. Recebe uma palavra. Faz uma pausa. Cuida da tua saúde mental.</p>
     </header>
-    <main class="layout">
 
-      <!-- CUBO FIXO NO TOPO (NÃO SE MOVE) -->
-      <section class="cubo-area">
-        <div class="card">
-          <div class="area-3d">
-            <div class="cubo" id="cubo">
-              <div class="face frente"><img src="cuida.jpeg" alt="CUIDA"><div class="nome-face">CUIDA</div></div>
-              <div class="face tras"><img src="recomeca.jpeg" alt="RECOMEÇA"><div class="nome-face">RECOMEÇA</div></div>
-              <div class="face direita"><img src="escuta.jpeg" alt="ESCUTA"><div class="nome-face">ESCUTA</div></div>
-              <div class="face esquerda"><img src="equilibra.jpeg" alt="EQUILIBRA"><div class="nome-face">EQUILIBRA</div></div>
-              <div class="face cima"><img src="abranda.jpeg" alt="ABRANDA"><div class="nome-face">ABRANDA</div></div>
-              <div class="face baixo"><img src="respira.jpeg" alt="RESPIRA"><div class="nome-face">RESPIRA</div></div>
-            </div>
-          </div>
-          <div class="btns">
-            <button id="btnGirar">🎲 Girar dado</button>
-            <button id="btnReset" class="btn-secundario">Reset</button>
-          </div>
-          <div class="estado-atual" id="estadoAtual">O dado está parado em ABRANDA. Gira para receber uma proposta.</div>
-        </div>
-      </section>
+    <!-- GRADE 3 COLUNAS -->
+    <div class="grid-3">
 
-      <!-- COLUNA 1: Como te sentes? -->
+      <!-- COLUNA ESQUERDA: estado, modos, faces -->
       <section class="card">
         <h2>1. Como te sentes agora?</h2>
-        <p class="texto-ajuda">Escolhe um estado antes de girar. Experimentem primeiro entre vocês e depois com os colegas, para melhorar o processo e corrigir pequenas incongruências.</p>
+        <p class="texto-ajuda">Escolhe um estado antes de girar.</p>
         <div class="emoji-box" id="estadoAntes">
           <button class="emoji-btn" data-valor="😟 Ansioso">😟</button>
           <button class="emoji-btn" data-valor="😐 Neutro">😐</button>
@@ -817,13 +745,15 @@
           <button class="emoji-btn" data-valor="😴 Cansado">😴</button>
           <button class="emoji-btn" data-valor="💭 Confuso">💭</button>
         </div>
+
         <h3>Formato da prática</h3>
         <div class="modos" id="modos">
-          <div class="modo ativo" data-modo="Pausa rápida" data-tempo="60"><strong>Pausa rápida</strong><span>Uma prática curta para escola, trabalho ou casa.</span></div>
-          <div class="modo" data-modo="Desafio diário" data-tempo="180"><strong>Desafio diário</strong><span>Uma prática mais calma, feita uma vez por dia.</span></div>
-          <div class="modo" data-modo="Grupo" data-tempo="60"><strong>Roda de grupo</strong><span>Cada pessoa faz um pequeno gesto e pode partilhar uma palavra.</span></div>
-          <div class="modo" data-modo="Caminhada Mental" data-tempo="90"><strong>Caminhada Mental</strong><span>Uma etapa para parar, respirar e recomeçar.</span></div>
+          <div class="modo ativo" data-modo="Pausa rápida" data-tempo="60"><strong>Pausa rápida</strong><span>Curta, para escola, trabalho ou casa.</span></div>
+          <div class="modo" data-modo="Desafio diário" data-tempo="180"><strong>Desafio diário</strong><span>Prática mais calma, uma vez por dia.</span></div>
+          <div class="modo" data-modo="Grupo" data-tempo="60"><strong>Roda de grupo</strong><span>Cada pessoa faz um gesto e partilha.</span></div>
+          <div class="modo" data-modo="Caminhada Mental" data-tempo="90"><strong>Caminhada Mental</strong><span>Para parar, respirar e recomeçar.</span></div>
         </div>
+
         <h3>Faces do dado</h3>
         <div class="opcoes">
           <div class="linha-opcao"><span class="bolinha" style="background:var(--abranda);"></span>ABRANDA</div>
@@ -835,35 +765,62 @@
         </div>
       </section>
 
-      <!-- COLUNA 2: Imagem + Histórico (lado direito) -->
-      <section class="card" style="border:none; box-shadow:none; background:transparent; padding:0; display:flex; flex-direction:column; gap:20px;">
-        <div class="imagem-lateral">
-          <img src="cubo.jpg" alt="Cubo da paz">
+      <!-- COLUNA CENTRO: CUBO + HISTÓRICO -->
+      <section class="card centro-col" style="padding-bottom:12px;">
+        <div class="cubo-wrapper">
+          <div class="area-3d">
+            <div class="cubo" id="cubo">
+              <div class="face frente"><img src="cuida.jpeg" alt="CUIDA"><div class="nome-face">CUIDA</div></div>
+              <div class="face tras"><img src="recomeca.jpeg" alt="RECOMEÇA"><div class="nome-face">RECOMEÇA</div></div>
+              <div class="face direita"><img src="escuta.jpeg" alt="ESCUTA"><div class="nome-face">ESCUTA</div></div>
+              <div class="face esquerda"><img src="equilibra.jpeg" alt="EQUILIBRA"><div class="nome-face">EQUILIBRA</div></div>
+              <div class="face cima"><img src="abranda.jpeg" alt="ABRANDA"><div class="nome-face">ABRANDA</div></div>
+              <div class="face baixo"><img src="respira.jpeg" alt="RESPIRA"><div class="nome-face">RESPIRA</div></div>
+            </div>
+          </div>
+          <div class="btns-cubo">
+            <button id="btnGirar">🎲 Girar dado</button>
+            <button id="btnReset" class="btn-secundario">↺ Reset</button>
+          </div>
+          <div class="estado-atual" id="estadoAtual">Dado parado em ABRANDA. Gira para receber uma proposta.</div>
         </div>
-        <div class="card" style="margin-top:0;">
-          <h2>Histórico</h2>
+
+        <!-- HISTÓRICO logo abaixo do cubo -->
+        <div class="historico-card" style="margin-top:20px;">
+          <h2 style="font-size:20px; margin-bottom:10px;">📋 Histórico</h2>
           <div class="historico" id="historico"><p class="vazio">Ainda não guardaste nenhum gesto.</p></div>
         </div>
       </section>
 
-      <!-- FOOTER COM LOGOS -->
-      <div class="footer-logos">
-        <div class="logo-item">
-          <img src="logo-mentemovimento.png" alt="Mente Movimento">
+      <!-- COLUNA DIREITA: imagem + faces -->
+      <section class="direita-card">
+        <div class="imagem-lateral">
+          <img src="cubo.jpg" alt="Cubo da paz">
         </div>
-        <div class="logo-item living-peace">
-          <img src="logo-livingpeace.png" alt="Living Peace International">
+        <div class="card" style="box-shadow:none; border-color:#e2e8f0;">
+          <h2>🧘 Faces do dado</h2>
+          <div class="opcoes" style="grid-template-columns:1fr 1fr;">
+            <div class="linha-opcao"><span class="bolinha" style="background:var(--abranda);"></span>ABRANDA</div>
+            <div class="linha-opcao"><span class="bolinha" style="background:var(--respira);"></span>RESPIRA</div>
+            <div class="linha-opcao"><span class="bolinha" style="background:var(--equilibra);"></span>EQUILIBRA</div>
+            <div class="linha-opcao"><span class="bolinha" style="background:var(--cuida);"></span>CUIDA</div>
+            <div class="linha-opcao"><span class="bolinha" style="background:var(--escuta);"></span>ESCUTA</div>
+            <div class="linha-opcao"><span class="bolinha" style="background:var(--recomeca);"></span>RECOMEÇA</div>
+          </div>
+          <p style="margin-top:14px; color:#475569; font-weight:500; font-size:14px;">Cada face convida a um gesto de cuidado.</p>
         </div>
-        <div class="logo-item">
-          <!-- Use <img> se tiver o arquivo SVG, ou cole o código SVG dentro de <svg> -->
-          <img src="logo-assp.svg" alt="ASSP">
-        </div>
-      </div>
+      </section>
 
-    </main>
+      <!-- FOOTER LOGOS -->
+      <div class="footer-logos">
+        <div class="logo-item"><img src="logo-mentemovimento.png" alt="Mente Movimento"></div>
+        <div class="logo-item living-peace"><img src="logo-livingpeace.png" alt="Living Peace International"></div>
+        <div class="logo-item"><img src="logo-assp.svg" alt="ASSP"></div>
+      </div>
+    </div>
   </div>
 
-  <!-- MODAL -->
+  <!-- MODAL (mesmo) -->
   <div class="modal-overlay" id="modalOverlay" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitulo">
       <div class="modal-cabecalho">
@@ -877,26 +834,16 @@
         <button class="fechar-modal" id="btnFecharModal" aria-label="Fechar modal">×</button>
       </div>
       <div class="modal-corpo" id="modalCorpo">
-        <div class="caixa-desafio" id="desafioTexto">A prática aparece aqui depois de girar o dado.</div>
+        <div class="caixa-desafio" id="desafioTexto">A prática aparece depois de girar o dado.</div>
         <div class="temporizador" id="temporizador">
           <div class="tempo" id="tempoTexto">00:30</div>
           <div class="barra"><div class="progresso" id="progresso"></div></div>
-          <button id="btnTempo" style="color: black;">Iniciar</button>
+          <button id="btnTempo" style="color:black;">Iniciar</button>
         </div>
         <div class="reflexao" id="reflexaoTexto">Pergunta de reflexão: como te sentes agora?</div>
         <div class="modal-grid">
-          <div class="modal-bloco">
-            <h3>Antes da prática</h3>
-            <p id="estadoAntesTexto">Ainda não escolhido.</p>
-          </div>
-          <div class="modal-bloco">
-            <h3>Depois da prática</h3>
-            <div class="emoji-box" id="estadoDepois">
-              <button class="emoji-btn" data-valor="😟 Pior">😟</button>
-              <button class="emoji-btn" data-valor="😐 Igual">😐</button>
-              <button class="emoji-btn" data-valor="🙂 Melhor">🙂</button>
-            </div>
-          </div>
+          <div class="modal-bloco"><h3>Antes</h3><p id="estadoAntesTexto">Não escolhido.</p></div>
+          <div class="modal-bloco"><h3>Depois</h3><div class="emoji-box" id="estadoDepois"><button class="emoji-btn" data-valor="😟 Pior">😟</button><button class="emoji-btn" data-valor="😐 Igual">😐</button><button class="emoji-btn" data-valor="🙂 Melhor">🙂</button></div></div>
         </div>
         <input class="frase-final" id="fraseFinal" placeholder="Frase final: Hoje escolho...">
         <div class="modal-acoes">
@@ -908,261 +855,181 @@
   </div>
 
   <script>
-    const cubo = document.getElementById("cubo");
-    const btnGirar = document.getElementById("btnGirar");
-    const btnReset = document.getElementById("btnReset");
-    const modalOverlay = document.getElementById("modalOverlay");
-    const btnFecharModal = document.getElementById("btnFecharModal");
-    const btnFecharModal2 = document.getElementById("btnFecharModal2");
-    const modalTitulo = document.getElementById("modalTitulo");
-    const modalDescricao = document.getElementById("modalDescricao");
-    const modalIcone = document.getElementById("modalIcone");
-    const desafioTexto = document.getElementById("desafioTexto");
-    const reflexaoTexto = document.getElementById("reflexaoTexto");
-    const fraseFinal = document.getElementById("fraseFinal");
-    const historico = document.getElementById("historico");
-    const estadoAtual = document.getElementById("estadoAtual");
-    const estadoAntesTexto = document.getElementById("estadoAntesTexto");
-    const temporizador = document.getElementById("temporizador");
-    const tempoTexto = document.getElementById("tempoTexto");
-    const progresso = document.getElementById("progresso");
-    const btnTempo = document.getElementById("btnTempo");
+    (function() {
+      const cubo = document.getElementById("cubo");
+      const btnGirar = document.getElementById("btnGirar");
+      const btnReset = document.getElementById("btnReset");
+      const modalOverlay = document.getElementById("modalOverlay");
+      const btnFecharModal = document.getElementById("btnFecharModal");
+      const btnFecharModal2 = document.getElementById("btnFecharModal2");
+      const modalTitulo = document.getElementById("modalTitulo");
+      const modalDescricao = document.getElementById("modalDescricao");
+      const modalIcone = document.getElementById("modalIcone");
+      const desafioTexto = document.getElementById("desafioTexto");
+      const reflexaoTexto = document.getElementById("reflexaoTexto");
+      const fraseFinal = document.getElementById("fraseFinal");
+      const historico = document.getElementById("historico");
+      const estadoAtual = document.getElementById("estadoAtual");
+      const estadoAntesTexto = document.getElementById("estadoAntesTexto");
+      const temporizador = document.getElementById("temporizador");
+      const tempoTexto = document.getElementById("tempoTexto");
+      const progresso = document.getElementById("progresso");
+      const btnTempo = document.getElementById("btnTempo");
 
-    let aGirar = false;
-    let voltasExtra = 0;
-    let sorteadoAtual = null;
-    let estadoAntes = "";
-    let estadoDepois = "";
-    let modoAtual = "Pausa rápida";
-    let jaGuardado = false;
-    let intervalo = null;
-    let tempoRestante = 0;
-    let tempoTotal = 0;
+      let aGirar = false;
+      let voltasExtra = 0;
+      let sorteadoAtual = null;
+      let estadoAntes = "";
+      let estadoDepois = "";
+      let modoAtual = "Pausa rápida";
+      let jaGuardado = false;
+      let intervalo = null;
+      let tempoRestante = 0;
+      let tempoTotal = 0;
 
-    const imagens = {
-      ABRANDA: "abranda.jpeg",
-      RESPIRA: "respira.jpeg",
-      EQUILIBRA: "equilibra.jpeg",
-      CUIDA: "cuida.jpeg",
-      ESCUTA: "escuta.jpeg",
-      RECOMEÇA: "recomeca.jpeg"
-    };
+      const imagens = {
+        ABRANDA: "abranda.jpeg", RESPIRA: "respira.jpeg", EQUILIBRA: "equilibra.jpeg",
+        CUIDA: "cuida.jpeg", ESCUTA: "escuta.jpeg", RECOMEÇA: "recomeca.jpeg"
+      };
 
-    const opcoes = [
-      { nome: "ABRANDA",   cor: "#f26a00", descricao: "Abranda o ritmo antes de agir ou responder.", desafio: "Fecha os olhos por 30 segundos. Repara no teu corpo. Onde sentes tensão?", reflexao: "O que mudou quando paraste por alguns segundos?", tempo: 30, final: "Hoje escolho abrandar antes de reagir." },
-      { nome: "RESPIRA",   cor: "#007bd1", descricao: "Usa a respiração para regular o corpo e a mente.", desafio: "Inspira 4 segundos, expira 6 segundos. Repete 5 vezes.", reflexao: "A tua respiração ficou mais calma ou continua igual?", tempo: 60, final: "Hoje escolho respirar antes de responder." },
-      { nome: "EQUILIBRA", cor: "#3c8f25", descricao: "Procura equilíbrio entre o que pesa e o que ajuda.", desafio: "Escreve uma coisa que precisas de largar e uma coisa que queres manter.", reflexao: "O que estás a carregar que já não precisas levar contigo?", tempo: 90, final: "Hoje escolho largar o que pesa e manter o que me faz bem." },
-      { nome: "CUIDA",     cor: "#e11d25", descricao: "Escolhe uma pequena ação de cuidado para hoje.", desafio: "Escolhe uma ação pequena de cuidado: beber água, descansar, pedir ajuda ou falar com alguém.", reflexao: "Que cuidado simples podes fazer ainda hoje?", tempo: 60, final: "Hoje escolho cuidar de mim com uma ação pequena." },
-      { nome: "ESCUTA",    cor: "#f5b800", descricao: "Treina a atenção sem pressa e sem julgamento.", desafio: "Escuta um som à tua volta durante 1 minuto sem fazer mais nada.", reflexao: "O que reparaste quando apenas escutaste?", tempo: 60, final: "Hoje escolho escutar com mais atenção." },
-      { nome: "RECOMEÇA",  cor: "#009c9c", descricao: "Dá espaço para tentar outra vez, com mais calma.", desafio: "Pensa numa coisa que podes tentar novamente, mas com mais calma.", reflexao: "O que podes recomeçar de forma mais leve?", tempo: 60, final: "Hoje escolho recomeçar com calma, uma tentativa de cada vez." }
-    ];
+      const opcoes = [
+        { nome: "ABRANDA", cor: "#f26a00", descricao: "Abranda o ritmo antes de agir.", desafio: "Fecha os olhos 30s. Repara no corpo.", reflexao: "O que mudou quando paraste?", tempo: 30, final: "Hoje escolho abrandar antes de reagir." },
+        { nome: "RESPIRA", cor: "#007bd1", descricao: "Regula o corpo e a mente.", desafio: "Inspira 4s, expira 6s. Repete 5x.", reflexao: "A respiração ficou mais calma?", tempo: 60, final: "Hoje escolho respirar antes de responder." },
+        { nome: "EQUILIBRA", cor: "#3c8f25", descricao: "Equilíbrio entre o que pesa e o que ajuda.", desafio: "Escreve uma coisa a largar e uma a manter.", reflexao: "O que carregas que já não precisas?", tempo: 90, final: "Hoje escolho largar o que pesa." },
+        { nome: "CUIDA", cor: "#e11d25", descricao: "Uma pequena ação de cuidado.", desafio: "Beber água, descansar, pedir ajuda.", reflexao: "Que cuidado simples podes fazer hoje?", tempo: 60, final: "Hoje escolho cuidar de mim." },
+        { nome: "ESCUTA", cor: "#f5b800", descricao: "Atenção sem pressa.", desafio: "Escuta um som à tua volta 1 min.", reflexao: "O que reparaste quando escutaste?", tempo: 60, final: "Hoje escolho escutar com atenção." },
+        { nome: "RECOMEÇA", cor: "#009c9c", descricao: "Tenta outra vez com calma.", desafio: "Pensa em algo que podes recomeçar.", reflexao: "O que podes recomeçar mais leve?", tempo: 60, final: "Hoje escolho recomeçar com calma." }
+      ];
 
-    function selecionarEmoji(container, tipo) {
-      container.querySelectorAll(".emoji-btn").forEach(function(botao) {
-        botao.addEventListener("click", function() {
-          container.querySelectorAll(".emoji-btn").forEach(function(b) { b.classList.remove("ativo"); });
-          botao.classList.add("ativo");
-          if (tipo === "antes") {
-            estadoAntes = botao.dataset.valor;
-          } else {
-            estadoDepois = botao.dataset.valor;
-          }
+      function selecionarEmoji(container, tipo) {
+        container.querySelectorAll(".emoji-btn").forEach(b => {
+          b.addEventListener("click", function() {
+            container.querySelectorAll(".emoji-btn").forEach(el => el.classList.remove("ativo"));
+            b.classList.add("ativo");
+            if (tipo === "antes") estadoAntes = b.dataset.valor;
+            else estadoDepois = b.dataset.valor;
+          });
+        });
+      }
+      selecionarEmoji(document.getElementById("estadoAntes"), "antes");
+      selecionarEmoji(document.getElementById("estadoDepois"), "depois");
+
+      document.querySelectorAll(".modo").forEach(m => {
+        m.addEventListener("click", function() {
+          document.querySelectorAll(".modo").forEach(el => el.classList.remove("ativo"));
+          m.classList.add("ativo");
+          modoAtual = m.dataset.modo;
         });
       });
-    }
 
-    selecionarEmoji(document.getElementById("estadoAntes"), "antes");
-    selecionarEmoji(document.getElementById("estadoDepois"), "depois");
+      function abrirModal() { modalOverlay.classList.add("ativo"); modalOverlay.setAttribute("aria-hidden", "false"); document.body.classList.add("modal-aberto"); }
+      function fecharModal() { modalOverlay.classList.remove("ativo"); modalOverlay.setAttribute("aria-hidden", "true"); document.body.classList.remove("modal-aberto"); }
 
-    document.querySelectorAll(".modo").forEach(function(modo) {
-      modo.addEventListener("click", function() {
-        document.querySelectorAll(".modo").forEach(function(m) { m.classList.remove("ativo"); });
-        modo.classList.add("ativo");
-        modoAtual = modo.dataset.modo;
-      });
-    });
-
-    function abrirModal() {
-      modalOverlay.classList.add("ativo");
-      modalOverlay.setAttribute("aria-hidden", "false");
-      document.body.classList.add("modal-aberto");
-    }
-
-    function fecharModal() {
-      modalOverlay.classList.remove("ativo");
-      modalOverlay.setAttribute("aria-hidden", "true");
-      document.body.classList.remove("modal-aberto");
-    }
-
-    // Temporizador
-    function atualizarTempo() {
-      const minutos = Math.floor(tempoRestante / 60);
-      const segundos = tempoRestante % 60;
-      tempoTexto.textContent = (minutos < 10 ? "0" + minutos : minutos) + ":" + (segundos < 10 ? "0" + segundos : segundos);
-      const percentagem = 100 - ((tempoRestante / tempoTotal) * 100);
-      progresso.style.width = percentagem + "%";
-    }
-
-    function iniciarTempo() {
-      if (intervalo) {
-        pararTempo();
-        return;
+      function atualizarTempo() {
+        const min = Math.floor(tempoRestante / 60);
+        const seg = tempoRestante % 60;
+        tempoTexto.textContent = (min < 10 ? "0"+min : min) + ":" + (seg < 10 ? "0"+seg : seg);
+        progresso.style.width = (100 - ((tempoRestante / tempoTotal) * 100)) + "%";
       }
-      if (tempoRestante <= 0) {
-        tempoRestante = tempoTotal;
-        atualizarTempo();
-      }
-      btnTempo.textContent = "Pausar";
-      intervalo = setInterval(function() {
-        tempoRestante--;
-        if (tempoRestante <= 0) {
-          tempoRestante = 0;
+
+      function iniciarTempo() {
+        if (intervalo) { pararTempo(); return; }
+        if (tempoRestante <= 0) { tempoRestante = tempoTotal; atualizarTempo(); }
+        btnTempo.textContent = "Pausar";
+        intervalo = setInterval(() => {
+          tempoRestante--;
+          if (tempoRestante <= 0) { tempoRestante = 0; atualizarTempo(); pararTempo(); reflexaoTexto.textContent = "Tempo concluído. Como te sentes?"; return; }
           atualizarTempo();
-          pararTempo();
-          reflexaoTexto.textContent = "Tempo concluído. Como te sentes agora?";
+        }, 1000);
+      }
+      function pararTempo() { if (intervalo) { clearInterval(intervalo); intervalo = null; } btnTempo.textContent = "Iniciar"; }
+
+      function guardarAutomaticamente() {
+        if (!sorteadoAtual || jaGuardado) return;
+        const vazio = historico.querySelector(".vazio");
+        if (vazio) historico.innerHTML = "";
+        const item = document.createElement("div");
+        item.className = "item-historico";
+        item.style.borderLeft = "5px solid " + sorteadoAtual.cor;
+        const antes = estadoAntes || "não escolhido";
+        const depois = estadoDepois || "não escolhido";
+        const frase = fraseFinal.value || sorteadoAtual.final;
+        item.innerHTML = `<strong style="color:${sorteadoAtual.cor};">${sorteadoAtual.nome} — ${modoAtual}</strong><span>Antes: ${antes}</span><br><span>Depois: ${depois}</span><br><span>${frase}</span>`;
+        historico.prepend(item);
+        jaGuardado = true;
+        estadoAtual.textContent = "Gesto guardado no histórico.";
+      }
+
+      function girarCubo() {
+        if (aGirar) return;
+        if (!estadoAntes) {
+          estadoAtual.textContent = "⚠️ Escolhe primeiro como te sentes (em cima) antes de girar.";
+          estadoAtual.style.borderColor = "#dc2626"; estadoAtual.style.backgroundColor = "#fef2f2";
+          setTimeout(() => { estadoAtual.style.borderColor = "#e2e8f0"; estadoAtual.style.backgroundColor = "#f1f5f9"; }, 2500);
           return;
         }
-        atualizarTempo();
-      }, 1000);
-    }
-
-    function pararTempo() {
-      if (intervalo) {
-        clearInterval(intervalo);
-        intervalo = null;
-      }
-      btnTempo.textContent = "Iniciar";
-    }
-
-    function guardarAutomaticamente() {
-      if (!sorteadoAtual || jaGuardado) return;
-
-      const vazio = historico.querySelector(".vazio");
-      if (vazio) historico.innerHTML = "";
-
-      const item = document.createElement("div");
-      item.className = "item-historico";
-      item.style.borderLeft = "5px solid " + sorteadoAtual.cor;
-
-      const antes = estadoAntes || "não escolhido";
-      const depois = estadoDepois || "não escolhido";
-      const frase = fraseFinal.value || sorteadoAtual.final;
-
-      item.innerHTML = `<strong style="color:${sorteadoAtual.cor};">${sorteadoAtual.nome} — ${modoAtual}</strong>
-                        <span>Antes: ${antes}</span><br>
-                        <span>Depois: ${depois}</span><br>
-                        <span>${frase}</span>`;
-      historico.prepend(item);
-      jaGuardado = true;
-      estadoAtual.textContent = "Gesto guardado automaticamente no histórico.";
-    }
-
-    function girarCubo() {
-      if (aGirar) return;
-
-      if (!estadoAntes) {
-        estadoAtual.textContent = "⚠️ Por favor, escolhe primeiro como te sentes (em cima) antes de girar o dado.";
-        estadoAtual.style.borderColor = "#dc2626";
-        estadoAtual.style.backgroundColor = "#fef2f2";
-        estadoAtual.style.color = "#991b1b";
-        setTimeout(() => {
-          estadoAtual.style.borderColor = "#cbd5e1";
-          estadoAtual.style.backgroundColor = "#f1f5f9";
-          estadoAtual.style.color = "#1e293b";
-        }, 3000);
-        return;
-      }
-
-      estadoAtual.style.borderColor = "#cbd5e1";
-      estadoAtual.style.backgroundColor = "#f1f5f9";
-      estadoAtual.style.color = "#1e293b";
-
-      pararTempo();
-      aGirar = true;
-      btnGirar.disabled = true;
-      estadoAtual.textContent = "A girar... prepara-te para uma pausa breve.";
-
-      const sorteado = opcoes[Math.floor(Math.random() * opcoes.length)];
-      sorteadoAtual = sorteado;
-      jaGuardado = false;
-
-      voltasExtra += 360 * 4;
-      let transformFinal = "";
-      if (sorteado.nome === "CUIDA")    transformFinal = `rotateX(${voltasExtra}deg) rotateY(${voltasExtra}deg)`;
-      if (sorteado.nome === "RECOMEÇA") transformFinal = `rotateX(${voltasExtra}deg) rotateY(${voltasExtra+180}deg)`;
-      if (sorteado.nome === "ESCUTA")   transformFinal = `rotateX(${voltasExtra}deg) rotateY(${voltasExtra-90}deg)`;
-      if (sorteado.nome === "EQUILIBRA")transformFinal = `rotateX(${voltasExtra}deg) rotateY(${voltasExtra+90}deg)`;
-      if (sorteado.nome === "ABRANDA")  transformFinal = `rotateX(${voltasExtra-90}deg) rotateY(${voltasExtra}deg)`;
-      if (sorteado.nome === "RESPIRA")  transformFinal = `rotateX(${voltasExtra+90}deg) rotateY(${voltasExtra}deg)`;
-
-      cubo.style.transform = transformFinal;
-
-      setTimeout(function() {
-        mostrarResultado(sorteado);
-        abrirModal();
-        guardarAutomaticamente();
-        btnGirar.disabled = false;
-        aGirar = false;
-      }, 3100);
-    }
-
-    function mostrarResultado(opcao) {
-      modalOverlay.style.color = opcao.cor;
-      modalTitulo.textContent = opcao.nome;
-      modalDescricao.textContent = opcao.descricao;
-      desafioTexto.innerHTML = "<strong>Faz um pequeno gesto:</strong><br>" + opcao.desafio;
-      reflexaoTexto.textContent = "Pergunta de reflexão: " + opcao.reflexao;
-      modalIcone.innerHTML = `<img src="${imagens[opcao.nome]}" alt="${opcao.nome}">`;
-      estadoAntesTexto.textContent = estadoAntes || "Ainda não escolhido.";
-      fraseFinal.value = opcao.final;
-      estadoAtual.innerHTML = `Resultado: <strong style="color:${opcao.cor};">${opcao.nome}</strong>. A prática abriu numa janela.`;
-
-      if (opcao.tempo) {
-        tempoTotal = opcao.tempo;
-        tempoRestante = tempoTotal;
-        temporizador.classList.add("ativo");
-        atualizarTempo();
         pararTempo();
-        btnTempo.textContent = "Iniciar";
-      } else {
-        temporizador.classList.remove("ativo");
+        aGirar = true; btnGirar.disabled = true;
+        estadoAtual.textContent = "A girar... prepara-te para uma pausa.";
+
+        const sorteado = opcoes[Math.floor(Math.random() * opcoes.length)];
+        sorteadoAtual = sorteado; jaGuardado = false;
+        voltasExtra += 360 * 4;
+        let tf = "";
+        if (sorteado.nome === "CUIDA") tf = `rotateX(${voltasExtra}deg) rotateY(${voltasExtra}deg)`;
+        else if (sorteado.nome === "RECOMEÇA") tf = `rotateX(${voltasExtra}deg) rotateY(${voltasExtra+180}deg)`;
+        else if (sorteado.nome === "ESCUTA") tf = `rotateX(${voltasExtra}deg) rotateY(${voltasExtra-90}deg)`;
+        else if (sorteado.nome === "EQUILIBRA") tf = `rotateX(${voltasExtra}deg) rotateY(${voltasExtra+90}deg)`;
+        else if (sorteado.nome === "ABRANDA") tf = `rotateX(${voltasExtra-90}deg) rotateY(${voltasExtra}deg)`;
+        else if (sorteado.nome === "RESPIRA") tf = `rotateX(${voltasExtra+90}deg) rotateY(${voltasExtra}deg)`;
+        cubo.style.transform = tf;
+
+        setTimeout(() => {
+          mostrarResultado(sorteado); abrirModal(); guardarAutomaticamente();
+          btnGirar.disabled = false; aGirar = false;
+        }, 3200);
       }
-    }
 
-    function resetar() {
-      if (aGirar) return;
-      pararTempo();
-      fecharModal();
-      voltasExtra = 0;
-      cubo.style.transform = "rotateX(-90deg) rotateY(0deg)";
-      estadoAtual.textContent = "O dado está parado em ABRANDA. Gira para receber uma proposta.";
-      modalTitulo.textContent = "Resultado";
-      modalDescricao.textContent = "A tua prática aparece aqui.";
-      desafioTexto.textContent = "A prática aparece aqui depois de girar o dado.";
-      reflexaoTexto.textContent = "Pergunta de reflexão: como te sentes agora?";
-      modalIcone.innerHTML = "🎲";
-      modalOverlay.style.color = "#111827";
-      fraseFinal.value = "";
-      sorteadoAtual = null;
-      jaGuardado = false;
-      temporizador.classList.remove("ativo");
-      estadoAntes = "";
-      document.querySelector("#estadoAntes .ativo")?.classList.remove("ativo");
-    }
+      function mostrarResultado(opcao) {
+        modalOverlay.style.color = opcao.cor;
+        modalTitulo.textContent = opcao.nome;
+        modalDescricao.textContent = opcao.descricao;
+        desafioTexto.innerHTML = "<strong>Faz um pequeno gesto:</strong><br>" + opcao.desafio;
+        reflexaoTexto.textContent = "Pergunta de reflexão: " + opcao.reflexao;
+        modalIcone.innerHTML = `<img src="${imagens[opcao.nome]}" alt="${opcao.nome}">`;
+        estadoAntesTexto.textContent = estadoAntes || "Não escolhido.";
+        fraseFinal.value = opcao.final;
+        estadoAtual.innerHTML = `Resultado: <strong style="color:${opcao.cor};">${opcao.nome}</strong>. A prática abriu numa janela.`;
+        if (opcao.tempo) {
+          tempoTotal = opcao.tempo; tempoRestante = tempoTotal;
+          temporizador.classList.add("ativo"); atualizarTempo(); pararTempo(); btnTempo.textContent = "Iniciar";
+        } else temporizador.classList.remove("ativo");
+      }
 
-    btnGirar.addEventListener("click", girarCubo);
-    cubo.addEventListener("click", girarCubo);
-    btnReset.addEventListener("click", resetar);
-    btnTempo.addEventListener("click", iniciarTempo);
-    btnNovoGesto.addEventListener("click", function() { fecharModal(); girarCubo(); });
-    btnFecharModal.addEventListener("click", fecharModal);
-    btnFecharModal2.addEventListener("click", fecharModal);
-    modalOverlay.addEventListener("click", function(event) {
-      if (event.target === modalOverlay) fecharModal();
-    });
-    document.addEventListener("keydown", function(event) {
-      if (event.key === "Escape") fecharModal();
-    });
+      function resetar() {
+        if (aGirar) return;
+        pararTempo(); fecharModal(); voltasExtra = 0;
+        cubo.style.transform = "rotateX(-90deg) rotateY(0deg)";
+        estadoAtual.textContent = "Dado parado em ABRANDA. Gira para receber uma proposta.";
+        modalTitulo.textContent = "Resultado"; modalDescricao.textContent = "A tua prática aparece aqui.";
+        desafioTexto.textContent = "A prática aparece depois de girar o dado.";
+        reflexaoTexto.textContent = "Pergunta de reflexão: como te sentes agora?";
+        modalIcone.innerHTML = "🎲"; modalOverlay.style.color = "#111827";
+        fraseFinal.value = ""; sorteadoAtual = null; jaGuardado = false;
+        temporizador.classList.remove("ativo"); estadoAntes = "";
+        document.querySelector("#estadoAntes .ativo")?.classList.remove("ativo");
+      }
+
+      btnGirar.addEventListener("click", girarCubo);
+      cubo.addEventListener("click", girarCubo);
+      btnReset.addEventListener("click", resetar);
+      btnTempo.addEventListener("click", iniciarTempo);
+      btnNovoGesto.addEventListener("click", function() { fecharModal(); girarCubo(); });
+      btnFecharModal.addEventListener("click", fecharModal);
+      btnFecharModal2.addEventListener("click", fecharModal);
+      modalOverlay.addEventListener("click", function(e) { if (e.target === modalOverlay) fecharModal(); });
+      document.addEventListener("keydown", function(e) { if (e.key === "Escape") fecharModal(); });
+    })();
   </script>
 </body>
 </html>
