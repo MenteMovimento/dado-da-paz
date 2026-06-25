@@ -19,7 +19,17 @@
     header h1{font-size:clamp(28px,5vw,54px);letter-spacing:clamp(2px,1vw,7px);color:var(--azul-escuro);margin-bottom:10px;line-height:1.05}
     header p{font-size:clamp(15px,2vw,18px);color:#1e293b;line-height:1.45;margin-bottom:6px}
     .slogan{font-weight:800;color:var(--azul-escuro)}
-    .layout{display:grid;grid-template-columns:minmax(240px,1fr) minmax(300px,390px) minmax(240px,1fr);gap:clamp(18px,3vw,30px);align-items:start}
+    
+    /* --- LAYOUT COM CUBO FIXO NO TOPO --- */
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(240px,1fr) minmax(300px,390px) minmax(240px,1fr);
+      gap: clamp(18px,3vw,30px);
+      align-items: start;
+      padding-top: 420px; /* Espaço para o cubo fixo */
+    }
+    /* ----------------------------------- */
+
     .card{background:#ffffff;border:2px solid var(--linha);border-radius:24px;box-shadow:0 16px 35px rgba(15,45,102,.12);padding:clamp(18px,2.5vw,26px);min-width:0}
     .card h2{font-size:clamp(20px,2.4vw,24px);color:var(--azul-escuro);margin-bottom:18px}
     .card h3{font-size:17px;color:var(--azul-escuro);margin:26px 0 12px}
@@ -38,21 +48,22 @@
     .linha-opcao{display:flex;align-items:center;gap:12px;padding:12px;border-radius:15px;background:#f1f5f9;border:2px solid #cbd5e1;font-weight:800;font-size:14px;color:#1e293b}
     .bolinha{width:14px;height:14px;border-radius:999px;display:block;flex-shrink:0;border:2px solid rgba(0,0,0,0.1)}
     
-    /* --- CUBO FIXO (STICKY) --- */
+    /* --- CUBO FIXO NO TOPO (NÃO SE MOVE) --- */
     .cubo-area {
-      text-align: center;
-      position: sticky;
-      top: 18px;
-      z-index: 10;
-      background: transparent;
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      width: 100%;
+      max-width: 390px; /* Mesma largura da coluna do cubo */
+      padding: 10px 16px;
+      background: var(--fundo);
+      box-shadow: 0 4px 20px rgba(15,45,102,.10);
+      border-bottom: 2px solid var(--linha);
     }
-    /* Ajuste para quando o cubo ficar sticky, ele não perder o fundo */
     .cubo-area .card {
-      background: #ffffff;
-      border: 2px solid var(--linha);
-      border-radius: 24px;
       box-shadow: 0 16px 35px rgba(15,45,102,.12);
-      padding: clamp(18px,2.5vw,26px);
     }
     /* ----------------------------------- */
 
@@ -174,7 +185,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      max-width: 260px; /* Aumentado */
+      max-width: 260px;
       max-height: 100px;
     }
     .footer-logos .logo-item img,
@@ -187,25 +198,22 @@
       display: block;
     }
     .footer-logos .logo-item.living-peace {
-      max-width: 340px; /* Aumentado */
+      max-width: 340px;
     }
     .footer-logos .logo-item.living-peace img,
     .footer-logos .logo-item.living-peace svg {
       max-height: 90px;
     }
-    /* Suporte para SVG */
-    .footer-logos .logo-item svg {
-      width: 100%;
-      height: auto;
-      max-height: 100px;
-    }
     /* ------------------------------ */
 
     @media(max-width:1050px){
-      .layout{grid-template-columns:1fr}
-      .cubo-area{position:static;order:-1}
-      .cubo-area .card {
-        box-shadow: 0 16px 35px rgba(15,45,102,.12);
+      .layout{
+        grid-template-columns: 1fr;
+        padding-top: 380px;
+      }
+      .cubo-area {
+        max-width: 100%;
+        padding: 0 16px;
       }
       .card{max-width:760px;width:100%;margin:0 auto}
       .imagem-lateral {
@@ -217,6 +225,9 @@
       }
     }
     @media(max-width:620px){
+      .layout{
+        padding-top: 340px;
+      }
       .modal-grid{grid-template-columns:1fr}
       .temporizador{grid-template-columns:1fr;text-align:center}
       .modal-cabecalho{align-items:flex-start}
@@ -257,6 +268,28 @@
       <p class="slogan">Gira o dado. Recebe uma palavra. Faz uma pausa. Cuida da tua saúde mental.</p>
     </header>
     <main class="layout">
+      
+      <!-- CUBO FIXO NO TOPO (NÃO SE MOVE) -->
+      <section class="cubo-area">
+        <div class="card">
+          <div class="area-3d">
+            <div class="cubo" id="cubo">
+              <div class="face frente"><img src="cuida.jpeg" alt="CUIDA"><div class="nome-face">CUIDA</div></div>
+              <div class="face tras"><img src="recomeca.jpeg" alt="RECOMEÇA"><div class="nome-face">RECOMEÇA</div></div>
+              <div class="face direita"><img src="escuta.jpeg" alt="ESCUTA"><div class="nome-face">ESCUTA</div></div>
+              <div class="face esquerda"><img src="equilibra.jpeg" alt="EQUILIBRA"><div class="nome-face">EQUILIBRA</div></div>
+              <div class="face cima"><img src="abranda.jpeg" alt="ABRANDA"><div class="nome-face">ABRANDA</div></div>
+              <div class="face baixo"><img src="respira.jpeg" alt="RESPIRA"><div class="nome-face">RESPIRA</div></div>
+            </div>
+          </div>
+          <div class="btns">
+            <button id="btnGirar">🎲 Girar dado</button>
+            <button id="btnReset" class="btn-secundario">Reset</button>
+          </div>
+          <div class="estado-atual" id="estadoAtual">O dado está parado em ABRANDA. Gira para receber uma proposta.</div>
+        </div>
+      </section>
+
       <section class="card">
         <h2>1. Como te sentes agora?</h2>
         <p class="texto-ajuda">Escolhe um estado antes de girar. Experimentem primeiro entre vocês e depois com os colegas, para melhorar o processo e corrigir pequenas incongruências.</p>
@@ -285,27 +318,6 @@
         </div>
       </section>
       
-      <!-- CUBO FIXO (STICKY) -->
-      <section class="cubo-area">
-        <div class="card">
-          <div class="area-3d">
-            <div class="cubo" id="cubo">
-              <div class="face frente"><img src="cuida.jpeg" alt="CUIDA"><div class="nome-face">CUIDA</div></div>
-              <div class="face tras"><img src="recomeca.jpeg" alt="RECOMEÇA"><div class="nome-face">RECOMEÇA</div></div>
-              <div class="face direita"><img src="escuta.jpeg" alt="ESCUTA"><div class="nome-face">ESCUTA</div></div>
-              <div class="face esquerda"><img src="equilibra.jpeg" alt="EQUILIBRA"><div class="nome-face">EQUILIBRA</div></div>
-              <div class="face cima"><img src="abranda.jpeg" alt="ABRANDA"><div class="nome-face">ABRANDA</div></div>
-              <div class="face baixo"><img src="respira.jpeg" alt="RESPIRA"><div class="nome-face">RESPIRA</div></div>
-            </div>
-          </div>
-          <div class="btns">
-            <button id="btnGirar">🎲 Girar dado</button>
-            <button id="btnReset" class="btn-secundario">Reset</button>
-          </div>
-          <div class="estado-atual" id="estadoAtual">O dado está parado em ABRANDA. Gira para receber uma proposta.</div>
-        </div>
-      </section>
-
       <!-- COLUNA DA DIREITA: IMAGEM + HISTÓRICO -->
       <section class="card" style="border:none; box-shadow:none; background:transparent; padding:0; display:flex; flex-direction:column; gap:20px;">
         <div class="imagem-lateral">
@@ -327,19 +339,16 @@
           <img src="logo-livingpeace.png" alt="Living Peace International">
         </div>
         <div class="logo-item">
-          <!-- Aqui você pode colocar tanto <img> quanto <svg> diretamente -->
-          <!-- Exemplo com imagem PNG -->
-          <!-- <img src="logo-assp.png" alt="ASSP"> -->
-          
-          <!-- Exemplo com SVG (descomente e coloque o seu código SVG aqui) -->
+          <!-- EXEMPLO COM SVG (substitua pelo seu código SVG real) -->
           <svg viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg">
             <rect width="100%" height="100%" fill="#0e8bd6"/>
             <text x="50%" y="50%" font-family="Arial" font-size="40" fill="white" text-anchor="middle" dominant-baseline="middle">ASSP</text>
             <text x="50%" y="70%" font-family="Arial" font-size="14" fill="white" text-anchor="middle" dominant-baseline="middle">Associação de Solidariedade Social dos Professores</text>
           </svg>
+          <!-- OU use a tag img se preferir: -->
+          <!-- <img src="logo-assp.svg" alt="ASSP"> -->
         </div>
       </div>
-      <!-- ----------------------------------- -->
 
     </main>
   </div>
