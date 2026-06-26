@@ -47,7 +47,6 @@
       gap: 32px;
     }
 
-    /* HEADER */
     header {
       text-align: center;
       margin-bottom: 6px;
@@ -76,7 +75,6 @@
       border-radius: 40px;
     }
 
-    /* GRID PRINCIPAL: 3 colunas */
     .grid-3 {
       display: grid;
       grid-template-columns: 1fr 1.1fr 1fr;
@@ -84,7 +82,6 @@
       align-items: start;
     }
 
-    /* CARDS */
     .card {
       background: #ffffff;
       border: 2px solid var(--linha);
@@ -115,7 +112,6 @@
       font-weight: 500;
     }
 
-    /* EMOJIS */
     .emoji-box {
       display: flex;
       flex-wrap: wrap;
@@ -145,7 +141,6 @@
       box-shadow: 0 4px 12px rgba(15, 45, 102, 0.15);
     }
 
-    /* MODOS */
     .modos {
       display: flex;
       flex-direction: column;
@@ -185,7 +180,6 @@
       box-shadow: 0 0 0 3px rgba(15, 45, 102, 0.1);
     }
 
-    /* FACES DO DADO (lista) */
     .opcoes {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -214,8 +208,7 @@
       border: 1px solid rgba(0,0,0,0.08);
     }
 
-    /* =====  (centro) ===== */
-    .-wrapper {
+    .cubo-wrapper {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -286,7 +279,7 @@
       justify-content: center;
       gap: 14px;
       flex-wrap: wrap;
-      margin-top: 10px;
+      margin-top: 2px;
     }
 
     button {
@@ -348,11 +341,22 @@
       text-align: center;
     }
 
-    /* ===== HISTÓRICO (abaixo do cubo) ===== */
     .historico-card {
       margin-top: 10px;
       width: 100%;
       max-width: 400px;
+    }
+
+    .historico-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .historico-header h2 {
+      font-size: 20px;
+      margin: 0;
     }
 
     .historico {
@@ -386,7 +390,6 @@
       padding: 8px 0;
     }
 
-    /* ===== COLUNA DIREITA (imagem + faces) ===== */
     .direita-card {
       display: flex;
       flex-direction: column;
@@ -414,7 +417,6 @@
       padding: 4px;
     }
 
-    /* ===== FOOTER LOGOS ===== */
     .footer-logos {
       grid-column: 1 / -1;
       display: flex;
@@ -456,7 +458,6 @@
       max-height: 72px;
     }
 
-    /* ===== MODAL (mesmo) ===== */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -666,7 +667,6 @@
       flex: 1 1 140px;
     }
 
-    /* ===== RESPONSIVO ===== */
     @media (max-width: 1100px) {
       .grid-3 {
         grid-template-columns: 1fr 1fr;
@@ -731,10 +731,9 @@
       <p class="slogan">Gira o dado. Recebe uma palavra. Faz uma pausa. Cuida da tua saúde mental.</p>
     </header>
 
-    <!-- GRADE 3 COLUNAS -->
     <div class="grid-3">
 
-      <!-- COLUNA ESQUERDA: estado, modos, faces -->
+      <!-- COLUNA ESQUERDA -->
       <section class="card">
         <h2>1. Como te sentes agora?</h2>
         <p class="texto-ajuda">Escolhe um estado antes de girar.</p>
@@ -785,17 +784,20 @@
           <div class="estado-atual" id="estadoAtual">Dado parado em ABRANDA. Gira para receber uma proposta.</div>
         </div>
 
-        <!-- HISTÓRICO logo abaixo do cubo -->
+        <!-- HISTÓRICO com botão Resultado -->
         <div class="historico-card" style="margin-top:20px;">
-          <h2 style="font-size:20px; margin-bottom:10px;">📋 Histórico</h2>
+          <div class="historico-header">
+            <h2>📋 Histórico</h2>
+            <button id="btnResultado" class="btn-secundario" style="padding:8px 18px; font-size:14px; box-shadow:none;">📊 Resultado</button>
+          </div>
           <div class="historico" id="historico"><p class="vazio">Ainda não guardaste nenhum gesto.</p></div>
         </div>
       </section>
 
-      <!-- COLUNA DIREITA: imagem + faces -->
+      <!-- COLUNA DIREITA -->
       <section class="direita-card">
         <div class="imagem-lateral">
-          <img src="cubo.jpeg" alt="Cubo da paz">
+          <img src="cubo.jpg" alt="Cubo da paz">
         </div>
         <div class="card" style="box-shadow:none; border-color:#e2e8f0;">
           <h2>🧘 Faces do dado</h2>
@@ -811,7 +813,7 @@
         </div>
       </section>
 
-      <!-- FOOTER LOGOS -->
+      <!-- FOOTER -->
       <div class="footer-logos">
         <div class="logo-item"><img src="logo-mentemovimento.png" alt="Mente Movimento"></div>
         <div class="logo-item living-peace"><img src="logo-livingpeace.png" alt="Living Peace International"></div>
@@ -859,6 +861,7 @@
       const cubo = document.getElementById("cubo");
       const btnGirar = document.getElementById("btnGirar");
       const btnReset = document.getElementById("btnReset");
+      const btnResultado = document.getElementById("btnResultado");
       const modalOverlay = document.getElementById("modalOverlay");
       const btnFecharModal = document.getElementById("btnFecharModal");
       const btnFecharModal2 = document.getElementById("btnFecharModal2");
@@ -1020,6 +1023,82 @@
         document.querySelector("#estadoAntes .ativo")?.classList.remove("ativo");
       }
 
+      // ===== ANÁLISE DO HISTÓRICO =====
+      function analisarHistorico() {
+        const itens = historico.querySelectorAll('.item-historico');
+        if (itens.length === 0) {
+          alert("Ainda não há registos no histórico. Faz algumas jogadas primeiro!");
+          return;
+        }
+
+        let antesBem = 0, antesMal = 0, depoisBem = 0, depoisMal = 0;
+        let melhorou = 0, piorou = 0, igual = 0;
+
+        itens.forEach(item => {
+          const texto = item.innerText;
+          const matchAntes = texto.match(/Antes: ([^ ]+)/);
+          const matchDepois = texto.match(/Depois: ([^ ]+)/);
+          if (!matchAntes || !matchDepois) return;
+
+          const antes = matchAntes[1];
+          const depois = matchDepois[1];
+
+          const estadoPositivo = ['🙂 Bem', '🙂 Melhor'];
+          const estadoNegativo = ['😟 Ansioso', '😟 Pior', '😴 Cansado', '💭 Confuso'];
+
+          if (estadoNegativo.includes(antes)) antesMal++;
+          else if (estadoPositivo.includes(antes)) antesBem++;
+          else igual++;
+
+          if (estadoNegativo.includes(depois)) depoisMal++;
+          else if (estadoPositivo.includes(depois)) depoisBem++;
+          else igual++;
+
+          if (estadoNegativo.includes(antes) && estadoPositivo.includes(depois)) melhorou++;
+          else if (estadoPositivo.includes(antes) && estadoNegativo.includes(depois)) piorou++;
+          else igual++;
+        });
+
+        const total = itens.length;
+        let conclusao = "";
+        let cor = "#0f2d66";
+
+        if (melhorou > piorou && melhorou > 0) {
+          conclusao = "A tua tendência é positiva! Estás a conseguir melhorar o teu estado emocional com as práticas. Continua assim! 🌱";
+          cor = "#3c8f25";
+        } else if (piorou > melhorou && piorou > 0) {
+          conclusao = "Notamos que tens tido mais momentos de piora do que melhora. Talvez seja bom fazer pausas mais longas ou procurar apoio. 🫂";
+          cor = "#e11d25";
+        } else if (antesMal > 0 && depoisMal === 0) {
+          conclusao = "Estás a transformar sentimentos difíceis em calma. O dado está a ajudar-te! 🧘";
+          cor = "#f5b800";
+        } else {
+          conclusao = "O teu estado está estável. O dado pode ajudar-te a explorar novas formas de cuidar de ti. ✨";
+          cor = "#007bd1";
+        }
+
+        // Exibe no modal
+        modalTitulo.textContent = "📊 Resultado da tua jornada";
+        modalDescricao.textContent = "Baseado nos teus registos emocionais";
+        desafioTexto.innerHTML = `<strong>Resumo:</strong><br>
+          Jogadas: ${total}<br>
+          Antes: ${antesBem} positivos, ${antesMal} negativos<br>
+          Depois: ${depoisBem} positivos, ${depoisMal} negativos<br>
+          Melhorou: ${melhorou} vezes | Piorou: ${piorou} vezes | Igual: ${igual} vezes`;
+        reflexaoTexto.textContent = conclusao;
+        reflexaoTexto.style.borderColor = cor;
+        reflexaoTexto.style.color = cor;
+        modalIcone.innerHTML = "📊";
+        modalOverlay.style.color = cor;
+        temporizador.classList.remove("ativo");
+        fraseFinal.style.display = "none";
+        document.querySelector(".modal-acoes").style.display = "none";
+        abrirModal();
+      }
+
+      btnResultado.addEventListener("click", analisarHistorico);
+
+      // Eventos
       btnGirar.addEventListener("click", girarCubo);
       cubo.addEventListener("click", girarCubo);
       btnReset.addEventListener("click", resetar);
