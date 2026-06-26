@@ -797,7 +797,7 @@
       <!-- COLUNA DIREITA -->
       <section class="direita-card">
         <div class="imagem-lateral">
-          <img src="cubo.jpg" alt="Cubo da paz">
+          <img src="cubo.jpeg" alt="Cubo da paz">
         </div>
         <div class="card" style="box-shadow:none; border-color:#e2e8f0;">
           <h2>🧘 Faces do dado</h2>
@@ -822,7 +822,7 @@
     </div>
   </div>
 
-  <!-- MODAL (mesmo) -->
+  <!-- MODAL -->
   <div class="modal-overlay" id="modalOverlay" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitulo">
       <div class="modal-cabecalho">
@@ -1023,7 +1023,7 @@
         document.querySelector("#estadoAntes .ativo")?.classList.remove("ativo");
       }
 
-      // ===== ANÁLISE DO HISTÓRICO =====
+      // ===== ANÁLISE DO HISTÓRICO (CORRIGIDA) =====
       function analisarHistorico() {
         const itens = historico.querySelectorAll('.item-historico');
         if (itens.length === 0) {
@@ -1031,29 +1031,37 @@
           return;
         }
 
-        let antesBem = 0, antesMal = 0, depoisBem = 0, depoisMal = 0;
+        let antesBem = 0, antesMal = 0, antesNeutro = 0;
+        let depoisBem = 0, depoisMal = 0, depoisNeutro = 0;
         let melhorou = 0, piorou = 0, igual = 0;
+
+        const estadoPositivo = ['🙂 Bem', '🙂 Melhor'];
+        const estadoNegativo = ['😟 Ansioso', '😟 Pior', '😴 Cansado', '💭 Confuso'];
+        const estadoNeutro = ['😐 Neutro', '😐 Igual'];
 
         itens.forEach(item => {
           const texto = item.innerText;
-          const matchAntes = texto.match(/Antes: ([^ ]+)/);
-          const matchDepois = texto.match(/Depois: ([^ ]+)/);
+          // Captura o texto completo após "Antes: " e "Depois: "
+          const matchAntes = texto.match(/Antes:\s*(.+)/);
+          const matchDepois = texto.match(/Depois:\s*(.+)/);
           if (!matchAntes || !matchDepois) return;
 
-          const antes = matchAntes[1];
-          const depois = matchDepois[1];
+          const antes = matchAntes[1].trim();
+          const depois = matchDepois[1].trim();
 
-          const estadoPositivo = ['🙂 Bem', '🙂 Melhor'];
-          const estadoNegativo = ['😟 Ansioso', '😟 Pior', '😴 Cansado', '💭 Confuso'];
+          // Contagem antes
+          if (estadoPositivo.includes(antes)) antesBem++;
+          else if (estadoNegativo.includes(antes)) antesMal++;
+          else if (estadoNeutro.includes(antes)) antesNeutro++;
+          else antesNeutro++; // fallback
 
-          if (estadoNegativo.includes(antes)) antesMal++;
-          else if (estadoPositivo.includes(antes)) antesBem++;
-          else igual++;
+          // Contagem depois
+          if (estadoPositivo.includes(depois)) depoisBem++;
+          else if (estadoNegativo.includes(depois)) depoisMal++;
+          else if (estadoNeutro.includes(depois)) depoisNeutro++;
+          else depoisNeutro++; // fallback
 
-          if (estadoNegativo.includes(depois)) depoisMal++;
-          else if (estadoPositivo.includes(depois)) depoisBem++;
-          else igual++;
-
+          // Evolução
           if (estadoNegativo.includes(antes) && estadoPositivo.includes(depois)) melhorou++;
           else if (estadoPositivo.includes(antes) && estadoNegativo.includes(depois)) piorou++;
           else igual++;
@@ -1069,7 +1077,7 @@
         } else if (piorou > melhorou && piorou > 0) {
           conclusao = "Notamos que tens tido mais momentos de piora do que melhora. Talvez seja bom fazer pausas mais longas ou procurar apoio. 🫂";
           cor = "#e11d25";
-        } else if (antesMal > 0 && depoisMal === 0) {
+        } else if (antesMal > 0 && depoisMal === 0 && depoisBem > 0) {
           conclusao = "Estás a transformar sentimentos difíceis em calma. O dado está a ajudar-te! 🧘";
           cor = "#f5b800";
         } else {
@@ -1082,8 +1090,8 @@
         modalDescricao.textContent = "Baseado nos teus registos emocionais";
         desafioTexto.innerHTML = `<strong>Resumo:</strong><br>
           Jogadas: ${total}<br>
-          Antes: ${antesBem} positivos, ${antesMal} negativos<br>
-          Depois: ${depoisBem} positivos, ${depoisMal} negativos<br>
+          Antes: ${antesBem} positivos, ${antesMal} negativos, ${antesNeutro} neutros<br>
+          Depois: ${depoisBem} positivos, ${depoisMal} negativos, ${depoisNeutro} neutros<br>
           Melhorou: ${melhorou} vezes | Piorou: ${piorou} vezes | Igual: ${igual} vezes`;
         reflexaoTexto.textContent = conclusao;
         reflexaoTexto.style.borderColor = cor;
