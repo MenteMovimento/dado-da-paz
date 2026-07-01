@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dado da Paz — Saúde Mental Digital</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, Arial, Helvetica, sans-serif;
+    }
+
+    :root {
+      --azul-escuro: #0f2d66;
+      --abranda: #f26a00;
+      --respira: #007bd1;
+      --escuta: #f5b800;
+      --equilibra: #3c8f25;
+      --cuida: #e11d25;
+      --recomeca: #009c9c;
+      --fundo: #f5f8fc;
+      --texto: #111827;
+      --cinza: #475569;
+      --linha: #cbd5e1;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at 10% 20%, rgba(0, 123, 209, 0.08), transparent 50%),
+                  radial-gradient(circle at 90% 80%, rgba(0, 156, 156, 0.08), transparent 50%),
+                  var(--fundo);
+      color: var(--texto);
+      padding: 24px 20px 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .app {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    header h1 {
+      font-size: clamp(32px, 5vw, 56px);
+      letter-spacing: 3px;
+      color: var(--azul-escuro);
+      line-height: 1.1;
+      font-weight: 800;
+    }
+
+    header p {
+      font-size: clamp(16px, 1.6vw, 20px);
+      color: #1e293b;
+      margin-top: 6px;
+    }
+
+    .cubo-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      width: 100%;
+    }
+
+    .area-3d {
+      width: min(400px, 80vw);
+      height: min(400px, 80vw);
+      perspective: 1200px;
+      margin: 0 auto;
+    }
+
+    .cubo {
+      --tam: min(400px, 80vw);
+      --metade: calc(var(--tam) / 2);
+      width: var(--tam);
+      height: var(--tam);
+      position: relative;
+      transform-style: preserve-3d;
+      transform: rotateX(-90deg) rotateY(0deg);
+      transition: transform 3.2s cubic-bezier(0.12, 0.75, 0.25, 1);
+      cursor: pointer;
+      margin: 0 auto;
+    }
+
+    .face {
+      position: absolute;
+      width: var(--tam);
+      height: var(--tam);
+      background: #ffffff;
+      border: clamp(8px, 1.8vw, 12px) solid #94a3b8;
+      border-radius: clamp(24px, 6vw, 32px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      backface-visibility: hidden;
+      user-select: none;
+      padding: clamp(14px, 4vw, 28px);
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.02), 0 12px 28px rgba(15, 45, 102, 0.12);
+    }
+
+    .face img {
+      width: 44%;
+      height: 44%;
+      object-fit: contain;
+      margin-bottom: clamp(12px, 3vw, 20px);
+      pointer-events: none;
+    }
+
+    .nome-face {
+      font-size: clamp(24px, 6vw, 36px);
+      font-weight: 900;
+      letter-spacing: 2px;
+      line-height: 1;
+    }
+
+    .frente   { transform: rotateY(0deg)    translateZ(var(--metade)); border-color: var(--cuida);    color: var(--cuida); }
+    .tras     { transform: rotateY(180deg)  translateZ(var(--metade)); border-color: var(--recomeca); color: var(--recomeca); }
+    .direita  { transform: rotateY(90deg)   translateZ(var(--metade)); border-color: var(--escuta);   color: var(--escuta); }
+    .esquerda { transform: rotateY(-90deg)  translateZ(var(--metade)); border-color: var(--equilibra); color: var(--equilibra); }
+    .cima     { transform: rotateX(90deg)   translateZ(var(--metade)); border-color: var(--abranda);  color: var(--abranda); }
+    .baixo    { transform: rotateX(-90deg)  translateZ(var(--metade)); border-color: var(--respira);  color: var(--respira); }
+
+    .btns-cubo {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+
+    button {
+      border: none;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 6px 16px rgba(15, 45, 102, 0.18);
+      color: #fff;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    #btnGirar {
+      background: var(--azul-escuro);
+      font-size: 18px;
+      padding: 18px 36px;
+      box-shadow: 0 8px 24px rgba(15, 45, 102, 0.35);
+      letter-spacing: 1px;
+      border: 2px solid transparent;
+    }
+
+    #btnGirar:hover {
+      background: #1a4a8a;
+    }
+
+    .btn-secundario {
+      background: #475569;
+    }
+    .btn-secundario:hover { background: #334155; }
+
+    .estado-atual {
+      margin-top: 8px;
+      padding: 14px 18px;
+      background: #f1f5f9;
+      border: 2px solid #e2e8f0;
+      border-radius: 20px;
+      color: #1e293b;
+      font-weight: 500;
+      font-size: 15px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .resultado {
+      margin-top: 16px;
+      padding: 16px 20px;
+      background: #ffffff;
+      border: 2px solid var(--linha);
+      border-radius: 20px;
+      color: #1e293b;
+      font-size: 16px;
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+    }
+
+    .resultado strong {
+      display: block;
+      font-size: 20px;
+      margin-bottom: 6px;
+    }
+
+    @media (max-width: 700px) {
+      .app {
+        gap: 20px;
+      }
+      .btns-cubo {
+        flex-direction: column;
+        align-items: center;
+      }
+      button {
+        width: 100%;
+        max-width: 280px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>🧠 DADO DA SAÚDE MENTAL</h1>
+      <p>Dado da Paz · Versão Digital</p>
+      <p style="font-weight: 700; color: var(--azul-escuro); background: #e6edf8; display: inline-block; padding: 0 20px; border-radius: 40px;">Gira o dado. Faz uma pausa. Cuida de ti.</p>
+    </header>
+
+    <div class="cubo-wrapper">
+      <div class="area-3d">
+        <div class="cubo" id="cubo">
+          <div class="face frente"><img src="cuida.jpeg" alt="CUIDA"><div class="nome-face">CUIDA</div></div>
+          <div class="face tras"><img src="recomeca.jpeg" alt="RECOMEÇA"><div class="nome-face">RECOMEÇA</div></div>
+          <div class="face direita"><img src="escuta.jpeg" alt="ESCUTA"><div class="nome-face">ESCUTA</div></div>
+          <div class="face esquerda"><img src="equilibra.jpeg" alt="EQUILIBRA"><div class="nome-face">EQUILIBRA</div></div>
+          <div class="face cima"><img src="abranda.jpeg" alt="ABRANDA"><div class="nome-face">ABRANDA</div></div>
+          <div class="face baixo"><img src="respira.jpeg" alt="RESPIRA"><div class="nome-face">RESPIRA</div></div>
+        </div>
+      </div>
+
+      <div class="btns-cubo">
+        <button id="btnGirar">🎲 Girar dado</button>
+        <button id="btnReset" class="btn-secundario">↺ Reset</button>
+      </div>
+
+      <div class="estado-atual" id="estadoAtual">Dado parado — clica em "Girar" para rodar.</div>
+      
+      <div class="resultado" id="resultado" style="display: none;">
+        <strong id="resultadoNome" style="color: var(--azul-escuro);">—</strong>
+        <span id="resultadoDescricao">A prática aparece aqui depois de girar.</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const cubo = document.getElementById("cubo");
+      const btnGirar = document.getElementById("btnGirar");
+      const btnReset = document.getElementById("btnReset");
+      const estadoAtual = document.getElementById("estadoAtual");
+      const resultadoDiv = document.getElementById("resultado");
+      const resultadoNome = document.getElementById("resultadoNome");
+      const resultadoDescricao = document.getElementById("resultadoDescricao");
+
+      let aGirar = false;
+      let voltasExtra = 0;
+      let sorteadoAtual = null;
+
+      const opcoes = [
+        { nome: "ABRANDA", cor: "#f26a00", descricao: "Abranda o ritmo antes de agir. Fecha os olhos 30s." },
+        { nome: "RESPIRA", cor: "#007bd1", descricao: "Regula o corpo e a mente. Inspira 4s, expira 6s." },
+        { nome: "EQUILIBRA", cor: "#3c8f25", descricao: "Equilíbrio entre o que pesa e o que ajuda." },
+        { nome: "CUIDA", cor: "#e11d25", descricao: "Uma pequena ação de cuidado. Beber água, descansar." },
+        { nome: "ESCUTA", cor: "#f5b800", descricao: "Atenção sem pressa. Escuta um som à tua volta." },
+        { nome: "RECOMEÇA", cor: "#009c9c", descricao: "Tenta outra vez com calma. Pensa em recomeçar." }
+      ];
+
+      function girarCubo() {
+        if (aGirar) return;
+        aGirar = true;
+        btnGirar.disabled = true;
+        estadoAtual.textContent = "🎲 A girar... prepara-te!";
+        resultadoDiv.style.display = "none";
+
+        const sorteado = opcoes[Math.floor(Math.random() * opcoes.length)];
+        sorteadoAtual = sorteado;
+        voltasExtra += 360 * 4;
+
+        let tf = "";
+        if (sorteado.nome === "CUIDA") tf = `rotateX(${voltasExtra}deg) rotateY(${voltasExtra}deg)`;
+        else if (sorteado.nome === "RECOMEÇA") tf = `rotateX(${voltasExtra}deg) rotateY(${voltasExtra+180}deg)`;
+        else if (sorteado.nome === "ESCUTA") tf = `rotateX(${voltasExtra}deg) rotateY(${voltasExtra-90}deg)`;
+        else if (sorteado.nome === "EQUILIBRA") tf = `rotateX(${voltasExtra}deg) rotateY(${voltasExtra+90}deg)`;
+        else if (sorteado.nome === "ABRANDA") tf = `rotateX(${voltasExtra-90}deg) rotateY(${voltasExtra}deg)`;
+        else if (sorteado.nome === "RESPIRA") tf = `rotateX(${voltasExtra+90}deg) rotateY(${voltasExtra}deg)`;
+        cubo.style.transform = tf;
+
+        setTimeout(() => {
+          estadoAtual.textContent = `🎯 Resultado: ${sorteado.nome}`;
+          resultadoNome.textContent = sorteado.nome;
+          resultadoNome.style.color = sorteado.cor;
+          resultadoDescricao.textContent = sorteado.descricao;
+          resultadoDiv.style.display = "block";
+          btnGirar.disabled = false;
+          aGirar = false;
+        }, 3200);
+      }
+
+      function resetar() {
+        if (aGirar) return;
+        voltasExtra = 0;
+        cubo.style.transform = "rotateX(-90deg) rotateY(0deg)";
+        estadoAtual.textContent = "Dado parado — clica em 'Girar' para rodar.";
+        resultadoDiv.style.display = "none";
+        sorteadoAtual = null;
+      }
+
+      btnGirar.addEventListener("click", girarCubo);
+      cubo.addEventListener("click", girarCubo);
+      btnReset.addEventListener("click", resetar);
+    })();
+  </script>
+</body>
+</html>
